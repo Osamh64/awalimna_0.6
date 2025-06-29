@@ -1,0 +1,90 @@
+<DOCTYPE html>
+    <html lang="ar" dir="rtl">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>مراجعة القصص</title>
+        <style>
+            /* (Same CSS as in the HTML example above) */
+            
+            body {
+                font-family: sans-serif;
+                margin: 20px;
+            }
+            
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+            
+            th,
+            td {
+                border: 1px solid #ccc;
+                padding: 10px;
+                text-align: right;
+            }
+            
+            th {
+                background-color: #f2f2f2;
+            }
+            
+            .actions a {
+                margin-left: 10px;
+                text-decoration: none;
+            }
+            
+            .actions a.approve {
+                color: green;
+            }
+            
+            .actions a.reject {
+                color: red;
+            }
+            
+            .actions a.view {
+                color: blue;
+            }
+            
+            .no-stories {
+                color: #777;
+                font-style: italic;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <h1>القصص قيد المراجعة</h1>
+
+        <p>kdk</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>المعرف</th>
+                    <th>العنوان</th>
+                    <th>اسم المؤلف</th>
+                    <th>تاريخ التقديم</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="5" class="no-stories">لا توجد قصص قيد المراجعة حالياً.</td>
+                </tr>
+                <tr>
+                    <td class="actions">
+                        <div>
+                            <!-- القبول و الرفض و السبب -->
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </body>
+
+    </html>

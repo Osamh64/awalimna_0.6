@@ -1,0 +1,843 @@
+/* ========== متغيرات الألوان الهادئة للكتب والروايات ========== */
+
+:root {
+    /* الألوان الأساسية - ألوان هادئة وناعمة */
+    --primary-color: #8b7355;
+    /* بني ترابي دافئ */
+    --primary-dark: #6d5940;
+    /* بني أغمق */
+    --secondary-color: #f8f6f2;
+    /* أبيض مائل للبيج */
+    --accent-color: #a8956b;
+    /* بني ذهبي فاتح */
+    --accent-hover: #9c8957;
+    /* بني ذهبي أغمق قليلاً */
+    /* ألوان النصوص */
+    --text-primary: #3c3833;
+    /* بني رمادي داكن للنصوص */
+    --text-secondary: #6b6459;
+    /* بني رمادي متوسط للنصوص الثانوية */
+    --text-light: #9a9085;
+    /* رمادي بني فاتح */
+    --text-white: #ffffff;
+    /* أبيض نقي */
+    /* ألوان الخلفيات */
+    --bg-primary: #ffffff;
+    /* أبيض نقي للخلفيات الأساسية */
+    --bg-secondary: #f8f6f2;
+    /* أبيض مائل للبيج للخلفيات الثانوية */
+    --bg-dark: #4a453e;
+    /* بني رمادي داكن جداً للخلفيات الداكنة مثل الفوتر */
+    --bg-light: #f0ede7;
+    /* أوف وايت أغمق قليلاً */
+    /* ألوان التنبيهات */
+    --success-color: #7c9885;
+    /* أخضر ترابي */
+    --error-color: #c4887b;
+    /* بني محمر / وردي داكن */
+    --warning-color: #d4a574;
+    /* برتقالي ترابي فاتح */
+    --info-color: #7a9bb5;
+    /* أزرق ترابي */
+    /* الظلال */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    /* نصف الأقطار */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    /* المسافات */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+}
+
+
+/* ========== إعادة تعيين عامة ========== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    min-height: 100vh;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* ========== رأس الصفحة الهادئ ========== */
+
+header {
+    background: var(--primary-color);
+    color: var(--text-white);
+    padding: var(--spacing-md) var(--spacing-xl);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(139, 115, 85, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+header.scrolled {
+    padding: var(--spacing-sm) var(--spacing-xl);
+    background: rgba(139, 115, 85, 0.95);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header-left,
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.header-left img {
+    height: 45px;
+    width: auto;
+    border-radius: var(--radius-md);
+    transition: transform 0.3s ease;
+}
+
+.header-left img:hover {
+    transform: scale(1.05);
+}
+
+.header-lefta,
+.header-righta {
+    color: var(--text-white);
+    text-decoration: none;
+    font-weight: 500;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-lefta::before,
+.header-righta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.header-lefta:hover::before,
+.header-righta:hover::before {
+    left: 100%;
+}
+
+.header-lefta:hover,
+.header-righta:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(139, 115, 85, 0.2);
+}
+
+
+/* ========== المحتوى الرئيسي ========== */
+
+main {
+    padding: calc(80px + var(--spacing-xl)) var(--spacing-xl) var(--spacing-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc(100vh - 120px);
+}
+
+
+/* ========== الجداول العصرية ========== */
+
+.table-container {
+    background: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    margin: var(--spacing-xl) 0;
+    border: 1px solid rgba(139, 115, 85, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-primary);
+}
+
+th {
+    background: var(--primary-color);
+    color: var(--text-white);
+    padding: var(--spacing-md);
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+    border: none;
+}
+
+td {
+    padding: var(--spacing-lg);
+    text-align: center;
+    border-bottom: 1px solid var(--bg-light);
+    transition: background-color 0.3s ease;
+    font-weight: 500;
+}
+
+tr:hover td {
+    background-color: rgba(102, 126, 234, 0.05);
+    /* قد تحتاج لتغيير هذا اللون إذا أردت استخدام متغير محدد */
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* ========== النماذج العصرية ========== */
+
+form {
+    background: var(--bg-primary);
+    padding: var(--spacing-2xl);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    max-width: 600px;
+    margin: var(--spacing-xl) auto;
+    border: 1px solid rgba(139, 115, 85, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+}
+
+label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+    width: 100%;
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    border: 2px solid var(--bg-light);
+    border-radius: var(--radius-lg);
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+    background: var(--bg-primary);
+    transform: translateY(-1px);
+}
+
+
+/* ========== الأزرار الهادئة ========== */
+
+button,
+.btn {
+    background: var(--primary-color);
+    color: var(--text-white);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(139, 115, 85, 0.15);
+}
+
+button:hover,
+.btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(139, 115, 85, 0.2);
+}
+
+button:active,
+.btn:active {
+    transform: translateY(0);
+}
+
+
+/* أزرار ملونة */
+
+.btn-success {
+    background: var(--success-color);
+}
+
+.btn-success:hover {
+    background: #6d8574;
+    /* لون أغمق قليلاً من --success-color */
+}
+
+.btn-error {
+    background: var(--error-color);
+}
+
+.btn-error:hover {
+    background: #b37669;
+    /* لون أغمق قليلاً من --error-color */
+}
+
+.btn-warning {
+    background: var(--warning-color);
+}
+
+.btn-warning:hover {
+    background: #c29662;
+    /* لون أغمق قليلاً من --warning-color */
+}
+
+
+/* ========== مربعات الفئات ========== */
+
+.category-box {
+    background: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-xl) auto;
+    max-width: 1000px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    /* قد تحتاج لتغيير هذا اللون إذا أردت استخدام متغير محدد */
+}
+
+.category-box ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    justify-content: center;
+}
+
+.category-box a {
+    text-decoration: none;
+    color: var(--text-primary);
+    padding: var(--spacing-lg);
+    border: 2px solid var(--bg-light);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--bg-secondary);
+    font-weight: 500;
+    display: block;
+}
+
+.category-box a:hover {
+    background: var(--primary-color);
+    color: var(--text-white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(139, 115, 85, 0.2);
+    border-color: var(--primary-color);
+}
+
+
+/* ========== قسم البحث ========== */
+
+.Search {
+    background: var(--bg-primary);
+    padding: var(--spacing-2xl);
+    margin: var(--spacing-xl) auto;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    max-width: 600px;
+    text-align: center;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    /* قد تحتاج لتغيير هذا اللون إذا أردت استخدام متغير محدد */
+}
+
+
+/* ========== لوحة الإدارة ========== */
+
+.admin-info {
+    background: var(--bg-primary);
+    padding: var(--spacing-2xl);
+    margin: var(--spacing-xl) auto;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    max-width: 1000px;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    /* قد تحتاج لتغيير هذا اللون إذا أردت استخدام متغير محدد */
+}
+
+.admin-info h2 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.admin-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.admin-info li {
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--bg-light);
+    transition: all 0.3s ease;
+}
+
+.admin-info li:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-md);
+}
+
+
+/* ========== مراجعة القصص ========== */
+
+.review-stories {
+    background: var(--bg-primary);
+    padding: var(--spacing-2xl);
+    margin: var(--spacing-xl) auto;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    max-width: 1000px;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    /* قد تحتاج لتغيير هذا اللون إذا أردت استخدام متغير محدد */
+}
+
+.review-stories h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    color: var(--primary-color);
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.review-stories ul {
+    list-style: none;
+    padding: 0;
+}
+
+.review-stories li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--bg-light);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.review-stories li:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    background: var(--bg-primary);
+}
+
+.review-stories .info {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    gap: var(--spacing-lg);
+}
+
+.review-stories .info ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.review-stories .info li {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.review-stories .actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.approve-button,
+.reject-button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: none;
+    border-radius: var(--spacing-xs);
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.approve-button {
+    background: var(--success-color);
+    color: var(--text-white);
+}
+
+.approve-button:hover {
+    background: #6d8574;
+    /* لون أغمق قليلاً من --success-color */
+}
+
+.reject-button {
+    background: var(--error-color);
+    color: var(--text-white);
+}
+
+.reject-button:hover {
+    background: #b37669;
+    /* لون أغمق قليلاً من --error-color */
+}
+
+
+/* ========== قوائم القصص ========== */
+
+.stories-list-container {
+    background: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-lg);
+    margin: var(--spacing-xl) 0;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    /* قد تحتاج لتغيير هذا اللون إذا أردت استخدام متغير محدد */
+}
+
+.stories-list-container ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.stories-list-container li {
+    background: var(--bg-secondary);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--bg-light);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: right;
+}
+
+.stories-list-container li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(139, 115, 85, 0.15);
+    background: var(--bg-primary);
+}
+
+
+/* ========== النوافذ المنبثقة ========== */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(45, 55, 72, 0.8);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background: var(--bg-primary);
+    margin: 10% auto;
+    padding: var(--spacing-2xl);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    text-align: center;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    /* قد تحتاج لتغيير هذا اللون إذا أردت استخدام متغير محدد */
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close-button {
+    color: var(--text-light);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-button:hover {
+    color: var(--error-color);
+}
+
+#rejection-reason {
+    width: 100%;
+    padding: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+    border: 2px solid var(--bg-light);
+    border-radius: var(--radius-lg);
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+#rejection-reason:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+}
+
+
+/* ========== تذييل الصفحة ========== */
+
+footer,
+.site-footer {
+    background: var(--bg-dark);
+    color: var(--text-white);
+    text-align: center;
+    padding: var(--spacing-xl);
+    margin-top: var(--spacing-2xl);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+/* ========== رسائل التنبيه ========== */
+
+.feedback-message {
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    font-weight: 600;
+    border: none;
+    box-shadow: var(--shadow-md);
+}
+
+.feedback-message.success {
+    background: var(--success-color);
+    color: var(--text-white);
+}
+
+.feedback-message.error {
+    background: var(--error-color);
+    color: var(--text-white);
+}
+
+.feedback-message.warning {
+    background: var(--warning-color);
+    color: var(--text-white);
+}
+
+
+/* ========== التصميم المتجاوب ========== */
+
+@media (max-width: 768px) {
+     :root {
+        --spacing-xl: 1.5rem;
+        --spacing-2xl: 2rem;
+    }
+    header {
+        padding: var(--spacing-md);
+    }
+    .header-container {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    main {
+        padding: calc(120px + var(--spacing-md)) var(--spacing-md) var(--spacing-md);
+    }
+    .stories-list-container ul {
+        grid-template-columns: 1fr;
+    }
+    .category-box ul {
+        grid-template-columns: 1fr;
+    }
+    .review-stories li {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    .review-stories .actions {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        margin: 20% auto;
+        width: 95%;
+        padding: var(--spacing-lg);
+    }
+    form {
+        padding: var(--spacing-lg);
+    }
+    .admin-info,
+    .review-stories {
+        padding: var(--spacing-lg);
+    }
+}
+
+
+/* ========== تأثيرات إضافية ========== */
+
+.fade-in {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hover-scale {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-scale:hover {
+    transform: scale(1.02);
+}
+
+
+/* ========== تحسينات إضافية للنصوص ========== */
+
+.story-title {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.story-author {
+    text-align: right;
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.adjust-text {
+    text-align: right;
+    line-height: 1.8;
+}
+
+#text-big {
+    font-size: 1.25rem;
+    line-height: 1.7;
+}
+
+#text-small {
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+
+/* ========== تحسينات للطباعة ========== */
+
+@media print {
+    header,
+    footer,
+    .admin-info,
+    .review-stories,
+    button,
+    .btn {
+        display: none !important;
+    }
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    main {
+        padding: 0 !important;
+    }
+}

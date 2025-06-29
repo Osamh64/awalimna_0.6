@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ar" dir="auto">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عوالمنا - مراجعة القصص المعلقة</title>
+    <link rel="icon" href="/static/Website.jpg">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/admin_style.css">
+    <style>
+        /* أنماط إضافية للرسائل والنماذج */
+        
+        .feedback-message {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .feedback-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .story-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            background: #fafafa;
+        }
+        
+        .story-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .story-info div {
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #eee;
+        }
+        
+        .story-info strong {
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .story-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        .accept-form,
+        .reject-toggle {
+            display: inline-block;
+        }
+        
+        .accept-btn,
+        .reject-toggle-btn,
+        .submit-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .accept-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .accept-btn:hover {
+            background-color: #218838;
+        }
+        
+        .reject-toggle-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .reject-toggle-btn:hover {
+            background-color: #c82333;
+        }
+        
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        .cancel-btn {
+            background-color: #6c757d;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #545b62;
+        }
+        /* استخدام CSS لإظهار/إخفاء نموذج الرفض */
+        
+        .rejection-toggle {
+            display: none;
+        }
+        
+        .rejection-form {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .rejection-toggle:checked+.rejection-form {
+            display: block;
+        }
+        
+        .rejection-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+        }
+        
+        .admin-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .admin-info ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .admin-info li {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        
+        .admin-info table {
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .admin-info th,
+        .admin-info td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        .no-stories {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="location" style="text-align: center;">
+            <a href="/static/website" style="text-decoration: none; color: inherit;">
+                <img src="/static/Website.jpg" alt="صورة الموقع" height="50" width="50">
+                <h1 style="display: inline; margin: 0;">عوالمنا</h1>
+            </a>
+        </div>
+    </header>
+
+    <!-- بيانات الخساب -->
+    <!-- admin_info.name = 'osamh64'  admin_info.email = 'osamh123451191@gmail.com' -->
+
+    {% set admin_info = { 'name': 'osamh64', 'email': 'osamh123451191@gmail.com', 'type': ' ادمن قاري', 'completed_stories': 10, 'pending_stories': 5, 'accepted_stories': 7 } %}
+
+
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container">
+        <br><br><br>
+
+        <!-- قسم معلومات الأدمن -->
+        <section class="admin-info" style="text-align: right;">
+            <h2>لوحة تحكم المشرف</h2>
+            <ul>
+                <li><strong>اسم المشرف:</strong> <span id="admin-name">{{ admin_info.name }}</span></li>
+                <li><strong>البريد الإلكتروني:</strong> <span id="admin-email">{{ admin_info.email }}</span></li>
+                <li>
+                    <table>
+                        <tr>
+                            <th>نوع الحساب:</th>
+                            <td><span id="admin-type">{{ admin_info.type }}</span></td>
+                        </tr>
+                    </table>
+                </li>
+                <li><strong>القصص المكتملة:</strong> {{ admin_info.completed_stories }}</li>
+                <li><strong>القصص المعلقة:</strong> {{ admin_info.pending_stories }}</li>
+                <li><strong>القصص المقبولة:</strong> {{ admin_info.accepted_stories }}</li>
+            </ul>
+        </section>
+
+        <!-- عرض الرسائل -->
+        {% if message %}
+        <div class="feedback-message {{ message_type }}">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <!-- قسم مراجعة القصص -->
+        <section class="review-stories">
+            <h2 style="text-align: center;">القصص المطلوب مراجعتها</h2>
+
+            <!-- بيانات القصة القصة الاولى المؤلف بطليموس و الفئة بطاطس و فضائية -->
+            {% set story_item = { 'title': 'القصة الاولى', 'author': "بطليموس", "category": "بطاطس", 'language' : "الفضائية" } %}
+
+            <!-- عرض القصة التجريبية -->
+            <div class="story-item">
+                <div class="story-info">
+                    <div>
+                        <strong>عنوان القصة:</strong> {{ story_item.title }}
+                    </div>
+                    <div>
+                        <strong>اسم المؤلف:</strong> {{ story_item.author }}
+                    </div>
+                    <div>
+                        <strong>فئة القصة:</strong> {{ story_item.category }}
+                    </div>
+                    <div>
+                        <strong>اللغة:</strong> {{ story_item.language }}
+                    </div>
+                </div>
+                <div class="story-actions">
+                    <!-- نموذج القبول -->
+                    <form class="accept-form" method="POST" action="/accept_story/test_id" onsubmit="return confirm('هل أنت متأكد من قبول هذه القصة؟')">
+                        <button type="submit" class="accept-btn">قبول</button>
+                    </form>
+
+                    <!-- مفتاح إظهار نموذج الرفض باستخدام CSS -->
+                    <div class="reject-toggle">
+                        <label for="reject-toggle-test" class="reject-toggle-btn">
+                                رفض
+                            </label>
+                    </div>
+                </div>
+
+                <!-- مفتاح CSS لإظهار/إخفاء النموذج -->
+                <input type="checkbox" id="reject-toggle-test" class="rejection-toggle">
+
+                <!-- نموذج الرفض -->
+                <div class="rejection-form">
+                    <form method="POST" action="/reject_story/test_id">
+                        <label for="rejection-reason-test">
+                                <strong>سبب الرفض:</strong>
+                            </label>
+                        <textarea id="rejection-reason-test" name="rejection_reason" class="rejection-textarea" placeholder="الرجاء إدخال سبب الرفض..." required></textarea>
+                        <div style="margin-top: 10px;">
+                            <label for="reject-toggle-test" class="cancel-btn">
+                                    إلغاء
+                                </label>
+                            <button type="submit" class="submit-btn">إرسال الرفض</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {% if pending_stories %} {% for story in pending_stories %}
+            <div class="story-item">
+                <div class="story-info">
+                    <div>
+                        <strong>عنوان القصة:</strong> {{ story.title }}
+                    </div>
+                    <div>
+                        <strong>اسم المؤلف:</strong> {{ story.author }}
+                    </div>
+                    <div>
+                        <strong>فئة القصة:</strong> {{ story.category }}
+                    </div>
+                    <div>
+                        <strong>اللغة:</strong> {{ story.language }}
+                    </div>
+                </div>
+
+                <div class="story-actions">
+                    <!-- نموذج القبول -->
+                    <form class="accept-form" method="POST" action="/accept_story/{{ story.id }}" onsubmit="return confirm('هل أنت متأكد من قبول هذه القصة؟')">
+                        <button type="submit" class="accept-btn">قبول</button>
+                    </form>
+
+                    <!-- مفتاح إظهار نموذج الرفض باستخدام CSS -->
+                    <div class="reject-toggle">
+                        <label for="reject-toggle-{{ story.id }}" class="reject-toggle-btn">
+                                رفض
+                            </label>
+                    </div>
+                </div>
+
+                <!-- مفتاح CSS لإظهار/إخفاء النموذج -->
+                <input type="checkbox" id="reject-toggle-{{ story.id }}" class="rejection-toggle">
+
+                <!-- نموذج الرفض -->
+                <div class="rejection-form">
+                    <form method="POST" action="/reject_story/{{ story.id }}">
+                        <label for="rejection-reason-{{ story.id }}">
+                                <strong>سبب الرفض:</strong>
+                            </label>
+                        <textarea id="rejection-reason-{{ story.id }}" name="rejection_reason" class="rejection-textarea" placeholder="الرجاء إدخال سبب الرفض..." required></textarea>
+                        <div style="margin-top: 10px;">
+                            <label for="reject-toggle-{{ story.id }}" class="cancel-btn">
+                                    إلغاء
+                                </label>
+                            <button type="submit" class="submit-btn">إرسال الرفض</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% endfor %} {% else %}
+            <div class="no-stories">
+                <p>لا توجد قصص معلقة للمراجعة حالياً</p>
+            </div>
+            {% endif %}
+        </section>
+
+        <!-- الفوتر -->
+        <footer class="site-footer">
+            <div class="container">
+                <p style="color: black;">عوالمنا. جميع الحقوق محفوظة.</p>
+            </div>
+        </footer>
+    </main>
+</body>
+
+</html>

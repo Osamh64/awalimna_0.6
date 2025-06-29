@@ -1,0 +1,380 @@
+.info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    /* يمكن تغيير هذا إلى متغير لون فاتح لاحقًا */
+    border-radius: 5px;
+}
+
+.info ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    /* لعرض العناصر بشكل أفقي داخل الـ ul */
+    align-items: center;
+}
+
+.info li {
+    margin: 0 10px;
+    /* يمكنك إضافة المزيد من التنسيقات هنا */
+}
+
+
+/* ==================== Admin Dashboard Styling ==================== */
+
+:root {
+    /* تم تحديث المتغيرات لمواءمتها مع style.css */
+    --admin-primary-color: #8b7355;
+    /* لون أساسي للإدارة، نفس اللون الرئيسي للموقع */
+    --admin-highlight-color: #6d5940;
+    /* لون تمييز للإدارة، نفس اللون الداكن للموقع */
+    --admin-text-color: #3c3833;
+    --admin-bg-primary: #ffffff;
+    --admin-bg-secondary: #f8f6f2;
+    --admin-border-color: rgba(139, 115, 85, 0.1);
+    --admin-success-color: #7c9885;
+    --admin-error-color: #c4887b;
+    --admin-text-white: #ffffff;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--admin-bg-secondary);
+    /* استخدام لون الخلفية الثانوي */
+    color: var(--admin-text-color);
+    /* استخدام لون النص الأساسي */
+    line-height: 1.6;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+header {
+    background: var(--admin-primary-color);
+    /* استخدام اللون الأساسي للإدارة */
+    color: var(--admin-text-white);
+    /* استخدام اللون الأبيض للنص */
+    padding-top: 20px;
+    min-height: 70px;
+    border-bottom: var(--admin-highlight-color) 3px solid;
+    /* استخدام لون التمييز */
+}
+
+header h1 {
+    color: var(--admin-text-white);
+    /* استخدام اللون الأبيض للنص */
+    margin: 0;
+    padding: 0;
+}
+
+.admin-info {
+    background: var(--admin-bg-primary);
+    /* استخدام لون الخلفية الأساسي */
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-info h2 {
+    color: var(--admin-highlight-color);
+    /* استخدام لون التمييز */
+}
+
+.admin-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.admin-info li {
+    margin-bottom: 10px;
+}
+
+.review-stories {
+    background-color: var(--admin-bg-primary);
+    /* استخدام لون الخلفية الأساسي */
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: var(--admin-primary-color);
+        /* استخدام اللون الأساسي للإدارة */
+    }
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 15px;
+        margin-bottom: 8px;
+        border: none;
+        border-bottom: 1px solid #eee;
+        /* يمكن استخدام متغير لون فاتح هنا */
+        border-radius: 0;
+        background-color: var(--admin-bg-primary);
+        /* استخدام لون الخلفية الأساسي */
+        transition: background-color 0.3s ease;
+        &:last-child {
+            border-bottom: none;
+        }
+        &:hover {
+            background-color: var(--admin-bg-secondary);
+            /* استخدام لون الخلفية الثانوي عند التحويم */
+        }
+        &.info {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            flex-wrap: wrap;
+            gap: 10px;
+            ul {
+                margin: 0;
+                padding: 0 10px;
+                list-style: none;
+                flex-grow: 1;
+                box-sizing: border-box;
+                text-align: center;
+                border-right: 1px solid #eee;
+                /* يمكن استخدام متغير لون فاتح هنا */
+                border-left: 1px solid #eee;
+                /* يمكن استخدام متغير لون فاتح هنا */
+                &:first-child {
+                    padding-right: 10px;
+                    text-align: right;
+                    border-right: 1px solid #eee;
+                    /* يمكن استخدام متغير لون فاتح هنا */
+                }
+                &:last-child {
+                    padding-left: 10px;
+                    margin-right: 0;
+                    text-align: left;
+                    border-right: none;
+                }
+            }
+            li {
+                padding: 0;
+                margin: 0;
+                border: none;
+                background-color: transparent;
+                font-size: 14px;
+            }
+        }
+        &.actions {
+            flex-shrink: 0;
+            margin-left: 15px;
+        }
+    }
+    button {
+        background-color: var(--admin-primary-color);
+        /* استخدام اللون الأساسي للإدارة */
+        color: var(--admin-text-white);
+        /* استخدام اللون الأبيض للنص */
+        padding: 8px 12px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 14px;
+        &:hover {
+            background-color: var(--admin-highlight-color);
+            /* استخدام لون التمييز */
+        }
+    }
+    .approve-button {
+        margin-right: 5px;
+    }
+    .reject-button {
+        background-color: var(--admin-error-color);
+        /* استخدام لون الخطأ */
+        &:hover {
+            background-color: #b37669;
+            /* لون أحمر أغمق (نفس لون الخطأ الأغمق في style.css) */
+        }
+    }
+}
+
+.stories-list-container ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.stories-list-container li {
+    background: var(--admin-bg-secondary);
+    /* استخدام لون الخلفية الثانوي */
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    flex: 1 1 calc(33% - 40px);
+    box-sizing: border-box;
+    text-align: right;
+}
+
+.stories-list-container .info ul {
+    padding: 0;
+    list-style: none;
+}
+
+.stories-list-container .info li {
+    margin-bottom: 5px;
+    background: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.feedback-message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.site-footer {
+    text-align: center;
+    padding: 20px 0;
+    background: var(--admin-primary-color);
+    /* استخدام اللون الأساسي للإدارة */
+    color: var(--admin-text-white);
+    /* استخدام اللون الأبيض للنص */
+    margin-top: 20px;
+}
+
+
+/* Responsive design for smaller screens */
+
+@media (max-width: 768px) {
+    .stories-list-container li {
+        flex: 1 1 calc(50% - 40px);
+    }
+}
+
+@media (max-width: 480px) {
+    .stories-list-container li {
+        flex: 1 1 calc(100% - 40px);
+    }
+}
+
+
+/* ==================== Modal Styling ==================== */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: var(--admin-bg-primary);
+    /* استخدام لون الخلفية الأساسي */
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    /* يمكن تغيير هذا إلى متغير لون فاتح لاحقًا */
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: center;
+}
+
+.close-button {
+    color: #aaa;
+    /* يمكن تغيير هذا إلى متغير لون فاتح لاحقًا */
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    /* يمكن تغيير هذا إلى لون نص داكن لاحقًا */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#rejection-reason {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    /* يمكن تغيير هذا إلى متغير لون فاتح لاحقًا */
+    border-radius: 4px;
+    resize: vertical;
+}
+
+#submit-rejection-reason {
+    background-color: var(--admin-primary-color);
+    /* استخدام اللون الأساسي للإدارة */
+    color: var(--admin-text-white);
+    /* استخدام اللون الأبيض للنص */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#submit-rejection-reason:hover {
+    background-color: var(--admin-highlight-color);
+    /* استخدام لون التمييز */
+}
+
+.accept-btn,
+.reject-btn {
+    padding: 8px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--admin-text-white);
+    /* استخدام اللون الأبيض للنص */
+}
+
+.accept-btn {
+    background-color: var(--admin-success-color);
+    /* استخدام لون النجاح */
+}
+
+.accept-btn:hover {
+    background-color: #6d8574;
+    /* لون أخضر أغمق (نفس لون النجاح الأغمق في style.css) */
+}
+
+.reject-btn {
+    background-color: var(--admin-error-color);
+    /* استخدام لون الخطأ */
+}
+
+.reject-btn:hover {
+    background-color: #b37669;
+    /* لون أحمر أغمق (نفس لون الخطأ الأغمق في style.css) */
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عوالمنا</title>
+    <link rel="icon" href="{{ url_for('static', filename='Website.jpg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header>
+    <div class="location" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <a href="/website">
+            <img src="{{ url_for('static', filename='Website.jpg') }}" alt="صورة الموقع" height="50" width="50">
+            <h1>عوالمنا</h1>
+        </a>
+        <div style="display: flex; gap: 10px;">
+            <a href="/website">
+                <button class="website-button">الرئيسية</button>
+            </a>
+            <a href="/login">
+                <button class="logout-button">تسجيل دخول</button>
+            </a>
+            <button id="show-categories" type="button">التصنيفات</button>
+        </div>
+    </div>
+</header>
+
+<br><br><br><br><br>
+
+<!-- قائمة التصنيفات مخفية افتراضيًا -->
+<div id="category-box" class="category-box" style="border-radius: 25px; display: none;">
+    <ul>
+        <li><a href="/comedy" class="category-title">كوميديا</a></li>
+        <li><a href="/science_fiction" class="category-title">خيال علمي</a></li>
+        <li><a href="/fiction" class="category-title">خيال</a></li>
+        <li><a href="/romance" class="category-title">الرومانسي</a></li>
+        <li><a href="/crime_investigation" class="category-title">جريمة وتحقيق</a></li>
+        <li><a href="/horror" class="category-title">الرعب</a></li>
+        <li><a href="/adventure" class="category-title">مغامرة</a></li>
+        <li><a href="/drama" class="category-title">دراما</a></li>
+        <li><a href="/historical" class="category-title">تاريخي</a></li>
+        <li><a href="/theft" class="category-title">سرقة</a></li>
+        <li><a href="/war" class="category-title">حرب</a></li>
+        <li><a href="/fantasy" class="category-title">فانتازي</a></li>
+        <li><a href="/children" class="category-title">اطفال</a></li>
+    </ul>
+</div>
+{% block content %}
+<!-- هنا يوضع محتوى الصفحة الفرعيّة -->
+{% endblock %}
+<footer>
+    <p>جميع الحقوق محفوظة © 2025 عوالمنا</p>
+</footer>
+<script>
+    // عند الضغط على زر التصنيفات، أظهر/أخفِ القائمة
+    document.getElementById('show-categories').onclick = function() {
+        var box = document.getElementById('category-box');
+        box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
+    };
+</script>
+</body>
+</html>
+

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة
+        <?= htmlspecialchars($user['name'] ?? 'غير معروف') ?>
+    </title>
+    <link rel="icon" href="../static/Website.jpg">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="location">
+        <a href="website.html">
+            <img src="Website.jpg" alt="شعار الموقع" height="50" width="50" loading="lazy">
+            <sup>عوالمنا</sup>
+        </a>
+    </div>
+
+    <div class="personal-info">
+        <h1>
+            <?= htmlspecialchars($user['name'] ?? 'مستخدم جديد') ?>
+        </h1>
+
+        <table class="info-table">
+            <tr>
+                <th>الاسم</th>
+                <td>
+                    <?= htmlspecialchars($user['name'] ?? '') ?>
+                </td>
+            </tr>
+            <tr>
+                <th>تاريخ الانضمام</th>
+                <td>
+                    <?= date('Y-m-d', strtotime($user['created_at'] ?? '')) ?>
+                </td>
+            </tr>
+            <tr>
+                <th>البريد الإلكتروني</th>
+                <td>
+                    <?= htmlspecialchars($user['email'] ?? '') ?>
+                </td>
+            </tr>
+        </table>
+
+        <h2>القصص</h2>
+        <table class="stories-table">
+            <thead>
+                <tr>
+                    <th>العنوان</th>
+                    <th>التقييم</th>
+                    <th>تاريخ النشر</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>
+                        <meter min="0" max="5" low="2" high="4" optimum="5" value="<?= round($story['avg_rating'] ?? 0, 1) ?>">
+                                </meter>
+                    </td>
+                    <td></td>
+                    <td>
+                        <a href="view_story.html?id=<?= $story['id'] ?>" class="read-btn">قراءة</a>
+                        <a href="edit_story.html?id=<?= $story['id'] ?>" class="edit-btn">تعديل</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">لا توجد قصص مضافة</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="actions">
+        <a href="subscriptions.html" class="subscriptions-btn">إدارة الاشتراكات</a>
+        <a href="write_story.html" class="add-story-btn">إضافة قصة جديدة</a>
+        <a href="delete_account.html" class="delete-account-btn" onclick="return confirm('هل أنت متأكد؟')">حذف الحساب</a>
+    </div>
+</body>
+
+</html>

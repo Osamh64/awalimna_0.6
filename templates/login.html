@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>تسجيل الدخول</h1>
+    <!-- محتوى الصفحة يوضع هنا -->
+    <p>نموذج تسجيل الدخول.</p>
+    <!-- يمكنك إضافة نموذج <form> هنا -->
+    <form>
+        <label for="username">اسم المستخدم أو البريد الإلكتروني:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="password">كلمة المرور:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        <input type="checkbox" id="remember_me" name="remember_me">
+        <label for="remember_me" value="true">تذكرني</label><br>
+        <input type="submit" value="دخول">
+        <p><a href="forgot_password.html">نسيت كلمة المرور؟</a></p>
+        <p>ليس لديك حساب؟ <a href="register.html">سجل الآن</a></p>
+    </form>
+</body>
+
+</html>
