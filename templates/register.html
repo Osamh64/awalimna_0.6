@@ -1,29 +1,19 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل جديد</title>
-    <style>body { font-family: sans-serif; }</style>
-</head>
-<body>
-    <h1>التسجيل</h1>
-    <!-- محتوى الصفحة يوضع هنا -->
-    <p>نموذج تسجيل مستخدم جديد (قارئ أو كاتب).</p>
-    <!-- يمكنك إضافة نموذج <form> هنا -->
-    <form>
-        <label for="fullname">الاسم الكامل:</label><br>
-        <input type="text" id="fullname" name="fullname"><br>
-        <label for="email">البريد الإلكتروني:</label><br>
-        <input type="email" id="email" name="email"><br>
-        <label for="reg_password">كلمة المرور:</label><br>
-        <input type="password" id="reg_password" name="password"><br>
-        <label for="confirm_password">تأكيد كلمة المرور:</label><br>
-        <input type="password" id="confirm_password" name="confirm_password"><br><br>
-        <input type="checkbox" id="terms" name="terms">
-        <label for="terms">أوافق على <a href="terms_conditions.html">الشروط والأحكام</a></label><br><br>
-        <input type="submit" value="تسجيل">
-        <p>لديك حساب بالفعل؟ <a href="login.html">سجل الدخول</a></p>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+<h1>التسجيل</h1>
+<p>نموذج تسجيل مستخدم جديد (قارئ أو كاتب).</p>
+<form>
+    <label for="fullname">الاسم الكامل:</label><br>
+    <input type="text" id="fullname" name="fullname"><br>
+    <label for="email">البريد الإلكتروني:</label><br>
+    <input type="email" id="email" name="email"><br>
+    <label for="reg_password">كلمة المرور:</label><br>
+    <input type="password" id="reg_password" name="password"><br>
+    <label for="confirm_password">تأكيد كلمة المرور:</label><br>
+    <input type="password" id="confirm_password" name="confirm_password"><br><br>
+    <input type="checkbox" id="terms" name="terms">
+    <label for="terms">أوافق على <a href="terms_conditions.html">الشروط والأحكام</a></label><br><br>
+    <input type="submit" value="تسجيل">
+    <p>لديك حساب بالفعل؟ <a href="login.html">سجل الدخول</a></p>
+</form>
+{% endblock %}

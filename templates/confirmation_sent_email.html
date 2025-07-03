@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحقق من البريد الإلكتروني</title>
+    <title>{{ title | default('تحقق من البريد الإلكتروني') }}</title>
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/script.js"></script>
     <link rel="icon" href="../static/Website.jpg">
@@ -84,15 +84,15 @@
 </head>
 
 <body style="text-align: center;">
-    <h1>عوالمنا - التحقق من البريد الإلكتروني</h1>
+    <h1>{{ main_title | default('عوالمنا - التحقق من البريد الإلكتروني') }}</h1>
     <div class="success-box">
-        <h2>تحقق من البريد الإلكتروني</h2>
-        <p>تم إرسال رابط التحقق إلى بريدك الإلكتروني</p>
-        <p>يرجى التحقق من صندوق البريد الإلكتروني الخاص بك للتحقق</p>
-        <a href="https://mail.google.com" class="email-link">الانتقال إلى البريد الإلكتروني</a>
-        <p>إذا لم تستلم البريد الإلكتروني، يرجى التحقق من صندوق البريد الإلكتروني الغير مرغوب فيه</p>
+        <h2>{{ success_message | default('تحقق من البريد الإلكتروني') }}</h2>
+        <p>{{ verification_message | default('تم إرسال رابط التحقق إلى بريدك الإلكتروني') }}</p>
+        <p>{{ check_mail_message | default('يرجى التحقق من صندوق البريد الإلكتروني الخاص بك للتحقق') }}</p>
+        <a href="{{ email_link | default('https://mail.google.com') }}" class="email-link">{{ email_link_text | default('الانتقال إلى البريد الإلكتروني') }}</a>
+        <p>{{ spam_message | default('إذا لم تستلم البريد الإلكتروني، يرجى التحقق من صندوق البريد الإلكتروني الغير مرغوب فيه') }}</p>
         <input type="text" placeholder="ادخل الكود" class="code-input">
-        <a href="website.html" class="btn">العودة إلى الصفحة الرئيسية</a>
+        <a href="{{ back_btn_link | default('website.html') }}" class="btn">{{ back_btn_text | default('العودة إلى الصفحة الرئيسية') }}</a>
     </div>
 </body>
 

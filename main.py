@@ -1,10 +1,94 @@
-from flask import Flask, render_template
-import os
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask_sqlalchemy import SQLAlchemy
+from flasgger import Swagger
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user, UserMixin
+from flask_migrate import Migrate
+from flask_cors import CORS
+from flask_bcrypt import Bcrypt
+from flask_mail import Mail
+from flask_wtf.csrf import CSRFProtect
+from flask_caching import Cache
+from flask_jwt_extended import JWTManager
+from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, set_access_cookies, unset_jwt_cookies
+from flask_jwt_extended import jwt_required
+from wtforms.validators import InputRequired, Length, ValidationError
+from wtforms import StringField, PasswordField, SubmitField
+from flask_wtf import FlaskForm
+from awallimna.model.user import Reader, Writer, Reader_Admin, Reader_SuperAdmin, Writer_Admin, Writer_SuperAdmin, Center, Teacher, Student, Owner
 
-app = Flask(__name__, template_folder="templates")
+Awallimna = Flask(__name__, template_folder="templates", static_folder="static", methods=["GET", "POST"])
+Awallimna.secret_key = 'your_secret_key'  # يجب تغييره في الإنتاج
+db = SQLAlchemy(Awallimna)
+migrate = Migrate(Awallimna, db)
+bcrypt = Bcrypt(Awallimna)
+mail = Mail(Awallimna)
+csrf = CSRFProtect(Awallimna)
+cache = Cache(Awallimna)
+jwt = JWTManager(Awallimna)
+Awallimna.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/awallimna'
+
+
+# إعداد Swagger ليكون على /apidocs/
+swagger = Swagger(Awallimna, template={
+    "swagger": "2.0",
+    "info": {
+        "title": "Awallimna API Documentation",
+        "description": "توثيق API الخاصة بمنصة أوالمنا باستخدام Swagger UI. فقط المسارات التي تبدأ بـ /api/ تظهر هنا.",
+        "version": "0.0.5"
+    },
+    "basePath": "/"
+}, config={
+    'specs': [
+        {
+            'endpoint': 'apispec_1',
+            'route': '/apispec_1.json',
+            'rule_filter': lambda rule: rule.rule.startswith('/api/'),  # فقط API تبدأ بـ /api/
+            'model_filter': lambda tag: True,
+        }
+    ],
+    'specs_route': '/apidocs/',
+    'headers': []
+})
+
+login_manager = LoginManager()
+login_manager.init_app(Awallimna)
+login_manager.login_view = 'login'
+
+# تصميم login_manager.user_loader للقارئ والكاتب و مشرف لقارئ ومشرف للكاتب و مشرف عالي للقاري و مشرف عالي للقاري و مركز تعليمي و معلم مركز تعليمي و طالب مركز تعليمي و مالك
+@login_manager.user_loader
+def load_user(user_id):
+    user = Reader.query.get(user_id) # قارئ
+    if user:
+        return user
+    user = Writer.query.get(user_id) # كاتب
+    if user:
+        return user
+    user = Reader_Admin.query.get(user_id) # مشرف لقارئ
+    if user:
+        return user
+    user = Reader_SuperAdmin.query.get(user_id) # مشرف للكاتب
+    if user:
+        return user
+    user = Writer_Admin.query.get(user_id) # مشرف عالي للكاتب
+    if user:
+        return user
+    user = Writer_SuperAdmin.query.get(user_id) # مشرف عالي للكاتب
+    if user:
+        return user
+    user = Center.query.get(user_id) # مركز تعليمي
+    if user:
+        return user
+    user = Teacher.query.get(user_id) # معلم مركز تعليمي
+    if user:
+        return user
+    user = Student.query.get(user_id) # طالب مركز تعليمي
+    if user:
+        return user
+    user = Owner.query.get(user_id) # مالك
+    return None
 
 # إضافة context processor لتمرير user=None لجميع القوالب
-@app.context_processor
+@Awallimna.context_processor
 def inject_user():
     return dict(user=None)
 
@@ -55,179 +139,231 @@ pages = [
     "register.html"
 ]
 
-# الصفحة الرئيسية
-@app.route("/")
-def home():
-    return render_template("website.html")
+# كل صفحات المزقع و رابط لهن
+@Awallimna.get("/", methods=["GET", "POST"])
+def paths():
+    # توليد قائمة بالروابط لكل صفحة
+    links = []
+    for page in pages:
+        # إزالة .html للحصول على اسم المسار
+        route = page.replace('.html', '')
+        # بعض الصفحات مثل index قد تكون مختلفة، هنا نفترض أن اسم المسار هو اسم الملف بدون .html
+        links.append(f'<li><a href="/{route}">{page}</a></li>')
+    # بناء HTML بسيط
+    html = f"""
+    <html>
+    <head><title>جميع صفحات الموقع</title></head>
+    <body>
+        <h1>جميع صفحات الموقع وروابطها</h1>
+        <ul>
+            {''.join(links)}
+        </ul>
+    </body>
+    </html>
+    """
+    return html
 
-# إنشاء route ودالة منفصلة لكل صفحة
-@app.route("/accept_educational_center")
+@Awallimna.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username", methods=["GET", "POST"])
+        password = request.form.get("password", methods=["GET", "POST"])
+        # تحقق من صحة البيانات
+        user = Reader.query.filter_by(username=username).first()
+        if user and bcrypt.check_password_hash(user.password, password):
+            session['user'] = username
+            return redirect(url_for('reader_profile'))
+        else:
+            flash("البريد الإلكتروني أو كلمة المرور غير صحيحة", "danger", methods=["GET", "POST"])
+    return render_template("login.html")
+
+@Awallimna.route("/dashboard", methods=["GET", "POST"])
+@login_required
+def dashboard():
+    return render_template("dashboard.html")
+
+@Awallimna.route("/logout", methods=["GET", "POST"])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+# حماية صفحة الملف الشخصي
+@Awallimna.route("/reader_profile", methods=["GET", "POST"])
+def reader_profile():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    return render_template("reader_profile.html", user=session['user'])
+
+# إنشاء route ودالة منفصلة لكل صفحة HTML فقط بدون توثيق Swagger
+@Awallimna.route("/accept_educational_center", methods=["GET", "POST"])
 def accept_educational_center():
     return render_template("accept_educational_center.html")
 
-@app.route("/adventure")
+@Awallimna.route("/adventure", methods=["GET", "POST"])
 def adventure():
     return render_template("adventure.html")
 
-@app.route("/center_profile")
+@Awallimna.route("/center_profile", methods=["GET", "POST"])
 def center_profile():
     return render_template("center_profile.html")
 
-@app.route("/children")
+@Awallimna.route("/children", methods=["GET", "POST"])
 def children():
     return render_template("children.html")
 
-@app.route("/comedy")
+@Awallimna.route("/comedy", methods=["GET", "POST"])
 def comedy():
     return render_template("comedy.html")
 
-@app.route("/confirmation_sent_email")
+@Awallimna.route("/confirmation_sent_email", methods=["GET", "POST"])
 def confirmation_sent_email():
     return render_template("confirmation_sent_email.html")
 
-@app.route("/create_center_account")
+@Awallimna.route("/create_center_account", methods=["GET", "POST"])
 def create_center_account():
     return render_template("create_center_account.html")
 
-@app.route("/crime_investigation")
+@Awallimna.route("/crime_investigation", methods=["GET", "POST"])
 def crime_investigation():
     return render_template("crime_investigation.html")
 
-@app.route("/deleted_confirmation")
+@Awallimna.route("/deleted_confirmation", methods=["GET", "POST"])
 def deleted_confirmation():
     return render_template("deleted_confirmation.html")
 
-@app.route("/delete_account")
+@Awallimna.route("/delete_account", methods=["GET", "POST"])
 def delete_account():
     return render_template("delete_account.html")
 
-@app.route("/drama")
+@Awallimna.route("/drama", methods=["GET", "POST"])
 def drama():
     return render_template("drama.html")
 
-@app.route("/fantasy")
+@Awallimna.route("/fantasy", methods=["GET", "POST"])
 def fantasy():
     return render_template("fantasy.html")
 
-@app.route("/fiction")
+@Awallimna.route("/fiction", methods=["GET", "POST"])
 def fiction():
     return render_template("fiction.html")
 
-@app.route("/historic")
+@Awallimna.route("/historic", methods=["GET", "POST"])
 def historic():
     return render_template("historic.html")
 
-@app.route("/historical")
+@Awallimna.route("/historical", methods=["GET", "POST"])
 def historical():
     return render_template("historical.html")
 
-@app.route("/horror")
+@Awallimna.route("/horror", methods=["GET", "POST"])
 def horror():
     return render_template("horror.html")
 
-@app.route("/reader_profile")
-def reader_profile():
-    return render_template("reader_profile.html")
-
-@app.route("/reset_password")
+@Awallimna.route("/reset_password", methods=["GET", "POST"])
 def reset_password():
     return render_template("reset_password.html")
 
-@app.route("/romance")
+@Awallimna.route("/romance", methods=["GET", "POST"])
 def romance():
     return render_template("romance.html")
 
-@app.route("/science_fiction")
+@Awallimna.route("/science_fiction", methods=["GET", "POST"])
 def science_fiction():
     return render_template("science_fiction.html")
 
-@app.route("/statistics")
+@Awallimna.route("/statistics", methods=["GET", "POST"])
 def statistics():
     return render_template("statistics.html")
 
-@app.route("/subscriptions")
+@Awallimna.route("/subscriptions", methods=["GET", "POST"])
 def subscriptions():
     return render_template("subscriptions.html")
 
-@app.route("/terms_conditions")
+@Awallimna.route("/terms_conditions", methods=["GET", "POST"])
 def terms_conditions():
     return render_template("terms_conditions.html")
 
-@app.route("/theft")
+@Awallimna.route("/theft", methods=["GET", "POST"])
 def theft():
     return render_template("theft.html")
 
-@app.route("/war")
+@Awallimna.route("/war", methods=["GET", "POST"])
 def war():
     return render_template("war.html")
 
-@app.route("/writer_profile")
+@Awallimna.route("/writer_profile", methods=["GET", "POST"])
 def writer_profile():
     return render_template("writer_profile.html")
 
-@app.route("/write_story")
+@Awallimna.route("/write_story", methods=["GET", "POST"])
 def write_story():
     return render_template("write_story.html")
 
-@app.route("/forgot_password")
+@Awallimna.route("/forgot_password", methods=["GET", "POST"])
 def forgot_password():
     return render_template("forgot_password.html")
 
-@app.route("/review_story")
+@Awallimna.route("/review_story", methods=["GET", "POST"])
 def review_story():
     return render_template("review_story.html")
 
-@app.route("/admin_page")
+@Awallimna.route("/admin_page", methods=["GET", "POST"])
 def admin_page():
     return render_template("admin_page.html")
 
-@app.route("/login")
-def login():
-    return render_template("login.html")
-
-@app.route("/story_functions")
+@Awallimna.route("/story_functions", methods=["GET", "POST"])
 def story_functions():
     return render_template("story_functions.html")
 
-@app.route("/website")
+@Awallimna.route("/website", methods=["GET", "POST"])
 def website():
     return render_template("website.html")
 
-@app.route("/header")
+@Awallimna.route("/header", methods=["GET", "POST"])
 def header():
     return render_template("header.html")
 
-@app.route("/footer")
+@Awallimna.route("/footer", methods=["GET", "POST"])
 def footer():
     return render_template("footer.html")
 
-@app.route("/patha")
+@Awallimna.route("/patha", methods=["GET", "POST"])
 def patha():
     return render_template("patha.html")
 
-@app.route("/read_story")
+@Awallimna.route("/read_story", methods=["GET", "POST"])
 def read_story():
     return render_template("read_story.html")
 
-@app.route("/teacher_accounts")
+@Awallimna.route("/teacher_accounts", methods=["GET", "POST"])
 def teacher_accounts():
     return render_template("teacher_accounts.html")
 
-@app.route("/sent_educational_center")
+@Awallimna.route("/sent_educational_center", methods=["GET", "POST"])
 def sent_educational_center():
     return render_template("sent_educational_center.html")
 
-@app.route("/update_story_status")
+@Awallimna.route("/update_story_status", methods=["GET", "POST"])
 def update_story_status():
     return render_template("update_story_status.html")
 
-@app.route("/register_center")
+@Awallimna.route("/register_center", methods=["GET", "POST"])
 def register_center():
     return render_template("register_center.html")
 
-@app.route("/register")
+@Awallimna.route("/register", methods=["GET", "POST"])
 def register():
-    return render_template("register.html")
+    return render_template("register.html", methods=["GET", "POST"])
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    host = "127.0.0.1"
+    port = 8080
+    Awallimna.run(
+        host=host,
+        port=port,
+        debug=True,
+        use_debugger=True,
+        threaded=True,
+        ssl_context=('cert.pem', 'key.pem')
+    )

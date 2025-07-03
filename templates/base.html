@@ -10,9 +10,9 @@
 <body>
 <header>
     <div class="location" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-        <a href="/website">
+        <a href="/website" style="display: flex; align-items: center; text-decoration: none;">
             <img src="{{ url_for('static', filename='Website.jpg') }}" alt="صورة الموقع" height="50" width="50">
-            <h1>عوالمنا</h1>
+            <span class="header-awalimna-text">عوالمنا</span>
         </a>
         <div style="display: flex; gap: 10px;">
             <a href="/website">
@@ -25,8 +25,6 @@
         </div>
     </div>
 </header>
-
-<br><br><br><br><br>
 
 <!-- قائمة التصنيفات مخفية افتراضيًا -->
 <div id="category-box" class="category-box" style="border-radius: 25px; display: none;">
@@ -46,9 +44,11 @@
         <li><a href="/children" class="category-title">اطفال</a></li>
     </ul>
 </div>
+<main>
 {% block content %}
 <!-- هنا يوضع محتوى الصفحة الفرعيّة -->
 {% endblock %}
+</main>
 <footer>
     <p>جميع الحقوق محفوظة © 2025 عوالمنا</p>
 </footer>

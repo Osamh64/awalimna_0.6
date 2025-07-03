@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عوالمنا</title>
-    <link rel="icon" href="../static/Website.jpg">
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <title>{{ title }}</title>
+    <link rel="icon" href="{{ url_for('static', filename='Website.jpg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/admin_style.css') }}">
 </head>
 
 <body>
@@ -16,10 +16,14 @@
     <main>
 
         <h2 class="new_story">أحدث القصص</h2>
+        <ul>
+        {% for story in stories %}
+            <li>{{ story }}</li>
+        {% else %}
+            <li>لا توجد قصص كوميدية حالياً.</li>
+        {% endfor %}
+        </ul>
     </main>
-    <footer>
-        جميع الحقوق محفوظة &copy; 2024
-    </footer>
 </body>
 
 </html>

@@ -5,43 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>صفحة
-        <?= htmlspecialchars($user['name'] ?? 'غير معروف') ?>
+        {{ user.name if user.name else 'غير معروف' }}
     </title>
     <link rel="icon" href="../static/Website.jpg">
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
 
 <body>
     <div class="location">
-        <a href="website.html">
-            <img src="Website.jpg" alt="شعار الموقع" height="50" width="50" loading="lazy">
+        <a href="{{ url_for('website') }}">
+            <img src="{{ url_for('static', filename='Website.jpg') }}" alt="شعار الموقع" height="50" width="50" loading="lazy">
             <sup>عوالمنا</sup>
         </a>
     </div>
 
     <div class="personal-info">
         <h1>
-            <?= htmlspecialchars($user['name'] ?? 'مستخدم جديد') ?>
+            {{ user.name if user.name else 'مستخدم جديد' }}
         </h1>
 
         <table class="info-table">
             <tr>
                 <th>الاسم</th>
                 <td>
-                    <?= htmlspecialchars($user['name'] ?? '') ?>
+                    {{ user.name or '' }}
                 </td>
             </tr>
             <tr>
                 <th>تاريخ الانضمام</th>
                 <td>
-                    <?= date('Y-m-d', strtotime($user['created_at'] ?? '')) ?>
+                    {{ user.created_at.strftime('%Y-%m-%d') if user.created_at else '' }}
                 </td>
             </tr>
             <tr>
                 <th>البريد الإلكتروني</th>
                 <td>
-                    <?= htmlspecialchars($user['email'] ?? '') ?>
+                    {{ user.email or '' }}
                 </td>
             </tr>
         </table>
@@ -57,29 +57,34 @@
                 </tr>
             </thead>
             <tbody>
+            {% if stories %}
+                {% for story in stories %}
                 <tr>
-                    <td></td>
+                    <td>{{ story.title }}</td>
                     <td>
-                        <meter min="0" max="5" low="2" high="4" optimum="5" value="<?= round($story['avg_rating'] ?? 0, 1) ?>">
-                                </meter>
+                        <meter min="0" max="5" low="2" high="4" optimum="5" value="{{ story.avg_rating|round(1) if story.avg_rating is defined else 0 }}">
+                        </meter>
                     </td>
-                    <td></td>
+                    <td>{{ story.published_at.strftime('%Y-%m-%d') if story.published_at else '' }}</td>
                     <td>
-                        <a href="view_story.html?id=<?= $story['id'] ?>" class="read-btn">قراءة</a>
-                        <a href="edit_story.html?id=<?= $story['id'] ?>" class="edit-btn">تعديل</a>
+                        <a href="{{ url_for('view_story', id=story.id) }}" class="read-btn">قراءة</a>
+                        <a href="{{ url_for('edit_story', id=story.id) }}" class="edit-btn">تعديل</a>
                     </td>
                 </tr>
+                {% endfor %}
+            {% else %}
                 <tr>
                     <td colspan="4">لا توجد قصص مضافة</td>
                 </tr>
+            {% endif %}
             </tbody>
         </table>
     </div>
 
     <div class="actions">
-        <a href="subscriptions.html" class="subscriptions-btn">إدارة الاشتراكات</a>
-        <a href="write_story.html" class="add-story-btn">إضافة قصة جديدة</a>
-        <a href="delete_account.html" class="delete-account-btn" onclick="return confirm('هل أنت متأكد؟')">حذف الحساب</a>
+        <a href="{{ url_for('subscriptions') }}" class="subscriptions-btn">إدارة الاشتراكات</a>
+        <a href="{{ url_for('write_story') }}" class="add-story-btn">إضافة قصة جديدة</a>
+        <a href="{{ url_for('delete_account') }}" class="delete-account-btn" onclick="return confirm('هل أنت متأكد؟')">حذف الحساب</a>
     </div>
 </body>
 

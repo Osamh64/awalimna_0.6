@@ -134,22 +134,22 @@
         <form action="" method="post">
             <div class="form-group">
                 <label>اسم المالك:</label>
-                <input type="text" name="owner_name" value="<?= htmlspecialchars($_POST['owner_name'] ?? '') ?>" required>
+                <input type="text" name="owner_name" value="{{ owner_name|default('') }}" required>
             </div>
             <div class="form-group">
                 <label>اسم المركز التعليمي:</label>
-                <input type="text" name="center_name" value="<?= htmlspecialchars($_POST['center_name'] ?? '') ?>" required>
+                <input type="text" name="center_name" value="{{ center_name|default('') }}" required>
             </div>
             <div class="form-group">
                 <label>البريد الإلكتروني:</label>
                 <div class="input-group">
-                    <input type="text" name="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" placeholder="أدخل البريد أو اسم المستخدم" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|^[a-zA-Z0-9._%+-]+$" title="أدخل بريدًا صحيحًا أو اسم مستخدم">
+                    <input type="text" name="email" value="{{ email|default('') }}" placeholder="أدخل البريد أو اسم المستخدم" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|^[a-zA-Z0-9._%+-]+$" title="أدخل بريدًا صحيحًا أو اسم مستخدم">
                     <select name="domain" required>
                         <option value="">اختر النطاق</option>
-                        <option value="gmail.com" <?= ($_POST['domain'] ?? '') == 'gmail.com' ? 'selected' : '' ?>>@gmail.com</option>
-                        <option value="outlook.com" <?= ($_POST['domain'] ?? '') == 'outlook.com' ? 'selected' : '' ?>>@outlook.com</option>
-                        <option value="yahoo.com" <?= ($_POST['domain'] ?? '') == 'yahoo.com' ? 'selected' : '' ?>>@yahoo.com</option>
-                        <option value="hotmail.com" <?= ($_POST['domain'] ?? '') == 'hotmail.com' ? 'selected' : '' ?>>@hotmail.com</option>
+                        <option value="gmail.com" {% if domain == 'gmail.com' %}selected{% endif %}>@gmail.com</option>
+                        <option value="outlook.com" {% if domain == 'outlook.com' %}selected{% endif %}>@outlook.com</option>
+                        <option value="yahoo.com" {% if domain == 'yahoo.com' %}selected{% endif %}>@yahoo.com</option>
+                        <option value="hotmail.com" {% if domain == 'hotmail.com' %}selected{% endif %}>@hotmail.com</option>
                     </select>
                 </div>
             </div>
@@ -162,24 +162,24 @@
             </div>
             <div class="form-group">
                 <label>تأكيد كلمة المرور:</label>
-                <input type="password" name="confirm_password" id="confirmPasswordField" value="<?= htmlspecialchars($_POST['confirm_password'] ?? '') ?>" required minlength="25" maxlength="25">
+                <input type="password" name="confirm_password" id="confirmPasswordField" value="{{ confirm_password|default('') }}" required minlength="25" maxlength="25">
             </div>
             <div class="form-group">
                 <label>عنوان المركز التعليمي:</label>
-                <input type="text" id="center_address" name="center_address" value="<?= htmlspecialchars($_POST['center_address'] ?? '') ?>" required>
+                <input type="text" id="center_address" name="center_address" value="{{ center_address|default('') }}" required>
                 <button type="button" class="location-picker-btn" onclick="getLocation()">حدد الموقع</button>
             </div>
             <div id="map"></div>
             <div class="form-group">
                 <label>عدد حسابات المعلمين:</label>
-                <input type="number" name="employee_accounts" value="<?= (int)($_POST['employee_accounts'] ?? 1) ?>" required min="1">
+                <input type="number" name="employee_accounts" value="{{ employee_accounts|default(1) }}" required min="1">
             </div>
             <div class="form-group">
                 <label>نوع البريد الإلكتروني:</label>
                 <select name="email_type" required>
                     <option value="">اختر نوع البريد</option>
-                    <option value="خاص" <?= ($_POST['email_type'] ?? '') == 'خاص' ? 'selected' : '' ?>>خاص</option>
-                    <option value="مخصص" <?= ($_POST['email_type'] ?? '') == 'مخصص' ? 'selected' : '' ?>>مخصص</option>
+                    <option value="خاص" {% if email_type == 'خاص' %}selected{% endif %}>خاص</option>
+                    <option value="مخصص" {% if email_type == 'مخصص' %}selected{% endif %}>مخصص</option>
                 </select>
             </div>
             <input type="submit" value="ارسال">

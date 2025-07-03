@@ -1,204 +1,64 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عوالمنا - الصفحة الرئيسية</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8e+z5l5/2z5l5/2z5l5/2z5l5/2z5l5/2z5l5" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://pyscript.net/releases/2025.3.1/core.css">
-    <script type="module" src="https://pyscript.net/releases/2025.3.1/core.js"></script>
-    <script>
-        async function checkEndpointStatus(endpoint) {
-            try {
-                const response = await fetch(endpoint, {
-                    method: 'HEAD'
-                });
-                return response.status;
-            } catch (error) {
-                return 404;
-            }
-        }
-
-        async function updateStatusCodes() {
-            const links = document.querySelectorAll('li a');
-            links.forEach(async(link) => {
-                const statusSpan = link.nextElementSibling;
-                if (statusSpan && statusSpan.classList.contains('status-code')) {
-                    const endpoint = link.getAttribute('href');
-                    const status = await checkEndpointStatus(endpoint);
-
-                    statusSpan.textContent = status;
-                    statusSpan.className = 'status-code';
-
-                    if (status === 200) {
-                        statusSpan.classList.add('success');
-                    } else if (status === 404) {
-                        statusSpan.classList.add('error');
-                    } else {
-                        statusSpan.classList.add('warning');
-                    }
-                }
-            });
-        }
-
-        // تحديث الحالات عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', updateStatusCodes);
-
-        // تحديث الحالات كل 30 ثانية
-        setInterval(updateStatusCodes, 30000);
-    </script>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        li {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        li:hover {
-            background-color: #f0f0f0;
-        }
-        
-        a {
-            color: #3498db;
-            text-decoration: none;
-            display: block;
-            padding: 5px;
-            flex: 1;
-        }
-        
-        a:hover {
-            color: #2980b9;
-        }
-        
-        .section-title {
-            color: #34495e;
-            margin-top: 20px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-        
-        .status-code {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            margin-right: 10px;
-            font-weight: bold;
-        }
-        
-        .success {
-            background-color: #2ecc71;
-            color: white;
-        }
-        
-        .error {
-            background-color: #e74c3c;
-            color: white;
-        }
-        
-        .warning {
-            background-color: #f1c40f;
-            color: black;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <h1>فحص المسارات</h1>
-        <p class="section-title">اختر الملف المطلوب من المجلد templates</p>
-
-        <div>
-            <p class="section-title">المسارات المتاحة:</p>
-            <ul>
-                <li>
-                    <a href="/auth/register"><i class="fas fa-user-plus"></i> تسجيل مستخدم جديد</a>
-                    <span class="status-code success">200</span>
-                </li>
-                <li>
-                    <a href="/auth/login"><i class="fas fa-sign-in-alt"></i> تسجيل دخول</a>
-                    <span class="status-code success">200</span>
-                </li>
-                <li>
-                    <a href="/auth/refresh_token"><i class="fas fa-sync"></i> تجديد التوكن</a>
-                    <span class="status-code success">200</span>
-                </li>
-                <li>
-                    <a href="/auth/forgot_password"><i class="fas fa-key"></i> نسيت كلمة المرور</a>
-                    <span class="status-code success">200</span>
-                </li>
-                <li>
-                    <a href="/auth/reset_password"><i class="fas fa-lock"></i> إعادة تعيين كلمة المرور</a>
-                    <span class="status-code success">200</span>
-                </li>
-                <li>
-                    <a href="/stories"><i class="fas fa-book"></i> قائمة القصص</a>
-                    <span class="status-code success">200</span>
-                </li>
-                <li>
-                    <a href="/stories/{story_id}"><i class="fas fa-book-open"></i> عرض قصة معينة</a>
-                    <span class="status-code error">404</span>
-                </li>
-                <li>
-                    <a href="/stories/{story_id}/comments"><i class="fas fa-comments"></i> التعليقات على القصة</a>
-                    <span class="status-code error">404</span>
-                </li>
-                <li>
-                    <a href="/users/{user_id}"><i class="fas fa-user"></i> ملف المستخدم</a>
-                    <span class="status-code error">404</span>
-                </li>
-                <li>
-                    <a href="/centers/register"><i class="fas fa-school"></i> تسجيل مركز تعليمي</a>
-                    <span class="status-code success">200</span>
-                </li>
-                <li>
-                    <a href="/centers/accept"><i class="fas fa-check-circle"></i> قبول طلب مركز تعليمي</a>
-                    <span class="status-code warning">405</span>
-                </li>
-                <li>
-                    <a href="/admin/statistics"><i class="fas fa-chart-bar"></i> الإحصائيات الإدارية</a>
-                    <span class="status-code warning">403</span>
-                </li>
-                <li>
-                    <a href="/subscriptions"><i class="fas fa-credit-card"></i> إدارة الاشتراكات</a>
-                    <span class="status-code success">200</span>
-                </li>
-            </ul>
-        </div>
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1>فحص المسارات</h1>
+    <p class="section-title">اختر الملف المطلوب من المجلد templates</p>
+    <div>
+        <p class="section-title">المسارات المتاحة:</p>
+        <ul>
+            <li>
+                <a href="/auth/register"><i class="fas fa-user-plus"></i> تسجيل مستخدم جديد</a>
+                <span class="status-code success">200</span>
+            </li>
+            <li>
+                <a href="/auth/login"><i class="fas fa-sign-in-alt"></i> تسجيل دخول</a>
+                <span class="status-code success">200</span>
+            </li>
+            <li>
+                <a href="/auth/refresh_token"><i class="fas fa-sync"></i> تجديد التوكن</a>
+                <span class="status-code success">200</span>
+            </li>
+            <li>
+                <a href="/auth/forgot_password"><i class="fas fa-key"></i> نسيت كلمة المرور</a>
+                <span class="status-code success">200</span>
+            </li>
+            <li>
+                <a href="/auth/reset_password"><i class="fas fa-lock"></i> إعادة تعيين كلمة المرور</a>
+                <span class="status-code success">200</span>
+            </li>
+            <li>
+                <a href="/stories"><i class="fas fa-book"></i> قائمة القصص</a>
+                <span class="status-code success">200</span>
+            </li>
+            <li>
+                <a href="/stories/{story_id}"><i class="fas fa-book-open"></i> عرض قصة معينة</a>
+                <span class="status-code error">404</span>
+            </li>
+            <li>
+                <a href="/stories/{story_id}/comments"><i class="fas fa-comments"></i> التعليقات على القصة</a>
+                <span class="status-code error">404</span>
+            </li>
+            <li>
+                <a href="/users/{user_id}"><i class="fas fa-user"></i> ملف المستخدم</a>
+                <span class="status-code error">404</span>
+            </li>
+            <li>
+                <a href="/centers/register"><i class="fas fa-school"></i> تسجيل مركز تعليمي</a>
+                <span class="status-code success">200</span>
+            </li>
+            <li>
+                <a href="/centers/accept"><i class="fas fa-check-circle"></i> قبول طلب مركز تعليمي</a>
+                <span class="status-code warning">405</span>
+            </li>
+            <li>
+                <a href="/admin/statistics"><i class="fas fa-chart-bar"></i> الإحصائيات الإدارية</a>
+                <span class="status-code warning">403</span>
+            </li>
+            <li>
+                <a href="/subscriptions"><i class="fas fa-credit-card"></i> إدارة الاشتراكات</a>
+                <span class="status-code success">200</span>
+            </li>
+        </ul>
     </div>
-</body>
-
-</html>
+</div>
+{% endblock %}

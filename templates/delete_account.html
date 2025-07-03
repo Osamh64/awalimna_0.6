@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عوالمنا</title>
-    <link rel="icon" href="../static/Website.jpg">
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <link rel="icon" href="{{ url_for('static', filename='Website.jpg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {# إذا كان لديك ملف جافاسكريبت في static أضف السطر التالي #}
+    {# <script src="{{ url_for('static', filename='js/script.js') }}"></script> #}
 </head>
 
 <body>
     <h1>حذف حساب</h1>
-    <p>هل تريد خذف الحساب نهائي او تجميد؟</p>
+    <p>هل تريد حذف الحساب نهائيًا أم تجميده؟</p>
 
     <form action="/delete-account" method="post">
         <input type="hidden" name="_method" value="delete">
@@ -34,7 +35,7 @@
         <textarea id="additional_info" name="additional_info" rows="4" cols="50"></textarea><br><br>
 
         <button type="submit" name="action" value="freeze">تجميد</button>
-        <button type="submit" name="action" value="delete" href="code My location/تم الحذف.html">حذف حساب نهائي</button>
+        <button type="submit" name="action" value="delete">حذف حساب نهائي</button>
     </form>
 </body>
 
